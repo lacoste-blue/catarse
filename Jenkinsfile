@@ -45,7 +45,7 @@ bundle install
           steps {
             catchError() {
               sh '''docker run -dt -e POSTGRES_DB=catarse_test -p 5432:5432 postgres:9
-
+RAILS_ENV=test bundle exec rake db:migrate 
 bundle exec rspec'''
             }
             
@@ -69,7 +69,6 @@ bundle exec rspec'''
                 reportTitles: "Coverage Report",
                 reportName: "Coverage Report"
               ])
-              
             }
             
           }

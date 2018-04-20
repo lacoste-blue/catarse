@@ -131,13 +131,13 @@ bundle exec rubycritic --no-browser'''
     stage('Upload') {
       steps {
         script {
-          s3Upload acl: 'Private', bucket: 'mutation-analysis', file: 'rubocop.json', path: "uno_classifieds/${env.BUILD_NUMBER}/"
+          s3Upload acl: 'Private', bucket: 'mutation-analysis', file: 'rubocop.json', path: "catarse/${env.BUILD_NUMBER}/"
           
-          s3Upload acl: 'Private', bucket: 'mutation-analysis', file: 'coverage.json', path: "uno_classifieds/${env.BUILD_NUMBER}/", workingDir: "coverage"
+          s3Upload acl: 'Private', bucket: 'mutation-analysis', file: 'coverage.json', path: "catarse/${env.BUILD_NUMBER}/", workingDir: "coverage"
           
-          s3Upload acl: 'Private', bucket: 'mutation-analysis', file: 'report.json', path: "uno_classifieds/${env.BUILD_NUMBER}/", workingDir: "tmp/rubycritic"
+          s3Upload acl: 'Private', bucket: 'mutation-analysis', file: 'report.json', path: "catarse/${env.BUILD_NUMBER}/", workingDir: "tmp/rubycritic"
           
-          s3Upload acl: 'Private', bucket: 'mutation-analysis', file: 'mutate.out', path: "uno_classifieds/${env.BUILD_NUMBER}/"
+          s3Upload acl: 'Private', bucket: 'mutation-analysis', file: 'mutate.out', path: "catarse/${env.BUILD_NUMBER}/"
         }
         
       }

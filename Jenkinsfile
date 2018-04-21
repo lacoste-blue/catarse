@@ -70,6 +70,8 @@ bundle exec rspec'''
                 reportTitles: "Coverage Report",
                 reportName: "Coverage Report"
               ])
+              
+              s3Upload acl: 'Private', bucket: 'mutation-analysis', file: 'coverage.json', path: "catarse/${env.BUILD_NUMBER}/", workingDir: "coverage"
             }
             
             archiveArtifacts 'coverage/coverage.json'
@@ -133,7 +135,7 @@ bundle exec rubycritic --no-browser'''
         script {
           s3Upload acl: 'Private', bucket: 'mutation-analysis', file: 'rubocop.json', path: "catarse/${env.BUILD_NUMBER}/"
           
-          s3Upload acl: 'Private', bucket: 'mutation-analysis', file: 'coverage.json', path: "catarse/${env.BUILD_NUMBER}/", workingDir: "coverage"
+          s3Upload acl: 'Private', bucket: 'mutation-analysis', file: 'mutate_coverage.json', path: "catarse/${env.BUILD_NUMBER}/", workingDir: "coverage"
           
           s3Upload acl: 'Private', bucket: 'mutation-analysis', file: 'report.json', path: "catarse/${env.BUILD_NUMBER}/", workingDir: "tmp/rubycritic"
           

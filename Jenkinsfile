@@ -11,10 +11,6 @@ pipeline {
         sh '''gem install bundler
 bundle install
 '''
-        catchError() {
-          sh 'docker kill $(docker ps -q)'
-        }
-        
       }
     }
     stage('Verify') {
@@ -71,7 +67,7 @@ bundle exec rspec'''
                 reportName: "Coverage Report"
               ])
               
-              s3Upload acl: 'Private', bucket: 'mutation-analysis', file: 'coverage.json', path: "catarse/${env.BUILD_NUMBER}/", workingDir: "coverage"
+              s3Upload acl: 'Private', bucket: 'mutation-analysis', file: 'coverage.json', path: "catarse/master/${env.BUILD_NUMBER}/", workingDir: "coverage"
             }
             
             archiveArtifacts 'coverage/coverage.json'
@@ -122,24 +118,16 @@ bundle exec rubycritic --no-browser'''
         
       }
     }
-    stage('Kill') {
-      steps {
-        catchError() {
-          sh 'docker kill $(docker ps -q)'
-        }
-        
-      }
-    }
     stage('Upload') {
       steps {
         script {
-          s3Upload acl: 'Private', bucket: 'mutation-analysis', file: 'rubocop.json', path: "catarse/${env.BUILD_NUMBER}/"
+          s3Upload acl: 'Private', bucket: 'mutation-analysis', file: 'rubocop.json', path: "catarse/master/${env.BUILD_NUMBER}/"
           
-          s3Upload acl: 'Private', bucket: 'mutation-analysis', file: 'coverage.json', path: "catarse/${env.BUILD_NUMBER}/mutate_coverage.json", workingDir: "coverage"
+          s3Upload acl: 'Private', bucket: 'mutation-analysis', file: 'coverage.json', path: "catarse/master/${env.BUILD_NUMBER}/mutate_coverage.json", workingDir: "coverage"
           
-          s3Upload acl: 'Private', bucket: 'mutation-analysis', file: 'report.json', path: "catarse/${env.BUILD_NUMBER}/", workingDir: "tmp/rubycritic"
+          s3Upload acl: 'Private', bucket: 'mutation-analysis', file: 'report.json', path: "catarse/master/${env.BUILD_NUMBER}/", workingDir: "tmp/rubycritic"
           
-          s3Upload acl: 'Private', bucket: 'mutation-analysis', file: 'mutate.out', path: "catarse/${env.BUILD_NUMBER}/"
+          s3Upload acl: 'Private', bucket: 'mutation-analysis', file: 'mutate.out', path: "catarse/master/${env.BUILD_NUMBER}/"
         }
         
       }

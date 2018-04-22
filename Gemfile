@@ -131,6 +131,11 @@ group :test, :development do
   gem 'rspec-collection_matchers'
   gem 'pry'
   gem 'jasmine-rails'
+  gem 'rubycritic'
+  gem 'rubocop'
+  gem 'mutant'
+  gem 'mutant-rspec'
+  gem 'simplecov-json'
 end
 
 group :test do
